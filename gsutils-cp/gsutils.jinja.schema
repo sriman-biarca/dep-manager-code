@@ -1,0 +1,10 @@
+info:
+  description: Uploading tgz files to GCS bucket and images to GCR
+
+required:
+- bucketName
+
+properties:
+  bucketName:
+    type: string
+    description: Name of the bucket to which we need to upload .tgz files

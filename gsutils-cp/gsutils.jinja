@@ -1,0 +1,35 @@
+{% set project = env['project'] %}
+{% set bucket = properties['bucketName'] %}
+
+
+resources:
+  - name: my-build
+    action: gcp-types/cloudbuild-v1:cloudbuild.projects.builds.create
+    metadata:
+      runtimePolicy:
+      - CREATE
+    properties:
+      steps:
+      - name: 'gcr.io/cloud-builders/gsutil'
+        args: ['cp', 'gs://gke-spinnaker-codelab/services.tgz', 'gs://{{ bucket}}/services.tgz']
+
+      - name: 'gcr.io/cloud-builders/gsutil'
+        args: ['cp', 'gs://gke-spinnaker-codelab/front50.tgz', 'gs://{{ bucket}}/front50.tgz']
+
+      - name: 'gcr.io/cloud-builders/docker'
+        args: ['pull', 'gcr.io/spinnaker-marketplace/frontend']
+
+
+      - name: 'gcr.io/cloud-builders/docker'
+        args: ['tag', 'gcr.io/spinnaker-marketplace/frontend', 'gcr.io/{{ project }}/frontend']
+
+      - name: 'gcr.io/cloud-builders/docker'
+        args: ['pull', 'gcr.io/spinnaker-marketplace/backend']
+
+      - name: 'gcr.io/cloud-builders/docker'
+        args: ['tag', 'gcr.io/spinnaker-marketplace/backend', 'gcr.io/{{ project }}/backend']
+
+      images:
+      -  'gcr.io/{{ project }}/frontend'
+      -  'gcr.io/{{ project }}/backend'
+

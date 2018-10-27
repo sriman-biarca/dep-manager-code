@@ -1,0 +1,76 @@
+# Copyright 2016 Google Inc. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+info:
+  title: GKE cluster
+  author: Google, Inc.
+  description: |
+    Creates a GKE cluster and associated type for use in DM. The type can be
+    used in other DM configurations in the following manner:
+
+    "type: <cluster-type>:/api/v1/namespaces/{namespace}/services"
+
+
+properties:
+  zone:
+    type: string
+    description: Zone in which the cluster should run.
+    default: us-central1-f
+  clusterName:
+    type: string
+    description: Zone in which the cluster should run.
+    default: basic-gke-def
+  initialNodeCount:
+    type: integer
+    description: Initial number of nodes desired in the cluster.
+    default: 2
+  machineType:
+    type: string
+    default: n1-standard-1
+    description: |
+      The name of the Google Compute Engine machine type.
+  diskSizeGb:
+    type: integer
+    default: 100
+    minimum: 10
+    description: |
+      Size of the disk attached to each node, specified in GB.
+      The smallest allowed disk size is 10GB
+  username:
+    type: string
+    description: |
+      The username for HTTP basic authentication to the master
+      endpoint. For clusters v1.6.0 and later, you can disable basic
+      authentication by providing an empty username.
+    default: 'testuser'
+  password:
+    type: string
+    description: |
+      The password to use for HTTP basic authentication to the master
+      endpoint. Because the master endpoint is open to the Internet,
+      you must create a strong password. If a password is provided,
+      'username' must be also provided (non-empty).
+    minLength: 16
+    default: 'testuser12345678'
+
+outputs:
+  clusterType:
+    description: The name of the type provider which can create resources from the Kubernetes v1 API in your cluster.
+    type: string
+  clusterType-apps:
+    description: The name of the type provider which can create resources from the Kubernetes apps/v1beta1 API in your cluster.
+    type: string
+  clusterType-v1beta1-extensions:
+    description: The name of the type provider which can create resources from the Kubernetes v1beta1-extensions API in your cluster.
+    type: string

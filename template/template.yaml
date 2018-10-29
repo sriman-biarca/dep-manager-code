@@ -23,5 +23,7 @@ resources:
     clusterName: basic-gke
     initialNodeCount: 1
     machineType: 'n1-standard-2'
+    username: sampleuser
+    password: game_of_thrones_8
     diskSizeGb: 100
     bucketName: tfstate-backup

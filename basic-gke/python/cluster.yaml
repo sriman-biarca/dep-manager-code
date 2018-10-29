@@ -24,3 +24,5 @@ resources:
     initialNodeCount: 1
     machineType: 'n1-standard-2'
     diskSizeGb: 200
+    username: sampleuser
+    password: game_of_thrones_8
